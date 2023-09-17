@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> 
+  <title>JQuery入門示範-實例在線編輯器</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="applicable-device" content="pc,mobile" />
+	<meta http-equiv="Cache-Control" content="no-transform" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"> 
+	<link href="/static/style/nhooo.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.staticfile.org/codemirror/5.48.4/codemirror.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/codemirror/5.48.4/codemirror.min.css">
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/mode/css/css.min.js"></script>
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/addon/edit/closetag.min.js"></script>
+	<script src="https://cdn.staticfile.org/codemirror/5.48.4/addon/edit/closebrackets.min.js"></script> 
+<!--[if lt IE 9]><script src="https://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script><script src="https://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]--></head>
+<body>
+<style>
+body {min-height:280px;background:#f6f6f6;}
+.container {width:98%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto;}
+.row{display:block}
+.CodeMirror {min-height:280px;font-family:Menlo,Monaco,Consolas,"Andale Mono","lucida console","Courier New",monospace;}
+#textareaCode {min-height:280px;}
+#iframeResult {display:block;overflow:hidden;border:0!important;min-width:100px;width:100%;min-height:280px;background-color:#fff;}
+.cm-s-default{line-height:22px;max-width:100%;}
+@media screen and (max-width:768px) {#textareaCode {height:280px;}}
+.CodeMirror {height:280px;font-family:Menlo,Monaco,Consolas,"Andale Mono","lucida console","Courier New",monospace;}
+#iframeResult {height:280px;}
+.form-inline {padding:6px 0 2px 0;}
+.panel .panel-body{padding:0}
+.col-md-6{padding:0 8px;}
+</style>
+<div class="container" style="margin-top:-10px;">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+	    <div class="panel panel-default"> 
+		    <div class="panel-heading">
+          <form class="form-inline">
+      <div class="row">
+          <div class="col-xs-6">
+               <button type="button" onclick="resetCode()" class="btn btn-default">源代碼：</button>            </div>
+            <div class="col-xs-6 text-right">
+              <button type="button" class="btn btn-success" onclick="submitTryit()" id="submitBTN"><span class="glyphicon glyphicon-send"></span> 點選執行</button>
+          </div>
+      </div>
+			</form>
+		</div>
+
+<div class="panel-body"><textarea class="form-control"  id="textareaCode" name="textareaCode"></textarea></div>
+	</div>
+	</div>
+
+<div class="col-md-6 col-sm-12">
+	<div class="panel panel-default"> 
+		<div class="panel-heading"><form class="form-inline"><button type="button" class="btn btn-default">執行結果</button></form></div>
+		<div class="panel-body"><div id="iframewrapper"><iframe id="iframeResult" class="result_output"  frameborder="0" name="view" width="400"></iframe></div></div>
+	</div>
+</div>
+  </div>
+</div>
+<script>
+
+var mixedMode = {
+name: "htmlmixed",
+scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+               mode: null},
+              {matches: /(text|application)\/(x-)?vb(a|script)/i,
+               mode: "vbscript"}]
+};
+
+var editor = CodeMirror.fromTextArea(document.getElementById("textareaCode"), {
+	mode: mixedMode,
+	selectionPointer: true,
+	lineNumbers: true,
+	matchBrackets: true,
+	indentUnit: 4,
+	indentWithTabs: true,
+	lineWrapping: true,
+});
+
+window.addEventListener("resize", autodivheight);
+
+var x = 0;
+
+function autodivheight(){
+    var winHeight=0;
+    if (window.innerHeight) {
+        winHeight = window.innerHeight;
+    } else if ((document.body) && (document.body.clientHeight)) {
+        winHeight = document.body.clientHeight;
+    }
+    // 透過深入 Document 內部對 body 進行偵測，取得瀏覽器視窗高度
+    if (document.documentElement && document.documentElement.clientHeight) {
+        winHeight = document.documentElement.clientHeight;
+    }
+    height = winHeight*0.68
+    editor.setSize('100%', height);
+    document.getElementById("iframeResult").style.height= height +"px";
+}
+
+function resetCode() {
+  var initCode = "<!DOCTYPE html>\r\n<html>\r\n<title>JQuery\u5165\u95e8\u793a\u4f8b - \u57fa\u7840\u6559\u7a0b<\/title>\r\n\r\n<head>\r\n<script src=\"jquery_intro.html\/\/cdn.staticfile.org\/jquery\/2.1.1\/jquery.min.js\"><\/script>\r\n<script>\r\n$(document).ready(function(){\r\n  $(\"p\").click(function(){\r\n    $(this).hide();\r\n  });\r\n});\r\n<\/script>\r\n<\/head>\r\n<body>\r\n\r\n<p>\u5982\u679c\u60a8\u5355\u51fb\u6211\uff0c\u6211\u5c06\u4f1a\u6d88\u5931\u3002<\/p>\r\n<p>\u5982\u679c\u60a8\u5355\u51fb\u6211\uff0c\u6211\u5c06\u4f1a\u6d88\u5931\u3002<\/p>\r\n<p>\u70b9\u51fb\u6211\u4e5f\u4f1a\u6d88\u5931!<\/p>\r\n<\/body>\r\n<\/html>"  
+  editor.getDoc().setValue(initCode);
+  submitTryit();
+}
+
+function submitTryit() {
+  var text = editor.getValue();
+  var patternHtml = /<html[^>]*>((.|[\n\r])*)<\/html>/im
+  var patternHead = /<head[^>]*>((.|[\n\r])*)<\/head>/im
+  var array_matches_head = patternHead.exec(text);
+  var patternBody = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
+  
+  var array_matches_body = patternBody.exec(text);
+  var basepath_flag = 1;
+  var basepath = '';
+  if(basepath_flag && text.indexOf('base href=')<=-1 && text.indexOf('href="#')<=-1) {
+    basepath = '<base href="/run/html/" target="_blank">';
+  }
+  if(array_matches_head) {
+    text = text.replace('<head>', '<head>' + basepath );
+  } else if (patternHtml) {
+    text = text.replace('<html>', '<head>' + basepath + '</head>');
+  } else if (array_matches_body) {
+    text = text.replace('<body>', '<body>' + basepath );
+  } else {
+    text = basepath + text;
+  }
+  var ifr = document.createElement("iframe");
+  ifr.setAttribute("frameborder", "0");
+  ifr.setAttribute("id", "iframeResult");  
+  document.getElementById("iframewrapper").innerHTML = "";
+  document.getElementById("iframewrapper").appendChild(ifr);
+ 
+  var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+  ifrw.document.open();
+  ifrw.document.write(text);  
+  ifrw.document.close();
+  autodivheight();
+}
+submitTryit();
+autodivheight();
+</script>
+</body>
+</html>

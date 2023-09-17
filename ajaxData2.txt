@@ -1,0 +1,28 @@
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .list-group {
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+    .list-group-item:first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid #bbb;
+    }
+  </style>
+
+<div class="container">
+<ul class="list-group">
+   <li class="list-group-item">1</li>
+   <li class="list-group-item">2</li>
+   <li class="list-group-item">3</li>
+   <li class="list-group-item">4</li>
+</ul>
+</div>
